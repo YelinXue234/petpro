@@ -27,23 +27,19 @@ export default function PetAiChat() {
         }
     }, [isLoggedIn, user]);
 
+    // 替换整个 fetchAccessToken 函数
     const fetchAccessToken = async () => {
         setTokenLoading(true);
         try {
-            const response = await fetch(`/api/token?userId=${encodeURIComponent(user.email)}`);
-            const data = await response.json();
-            if (data.success && data.access_token) {
-                setAccessToken(data.access_token);
-            } else {
-                console.error('获取 token 失败:', data.error);
-            }
+            // 从你手动测试成功的响应中复制的 access_token
+            const hardcodedToken = 'ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT25zaWRYTmxjbDlwWkNJNklqRXhNREF5TWprNExWeDFPRFU1WWx4MU5qYzVOeTAzTWpoak16STRObVptWW1SaVpUSTBZVFE1TUdFeFpqWTJPREpoWVRoa01pSXNJbUYxZEdoZmRtbGhYMkZ3YVd0bGVTSTZkSEoxWlgwc0ltVjRjQ0k2TVRjM09ETXpORE01TlN3aWFuUnBJam9pWVdGaE5tRmpZVGd0TjJGbU5pMDBZelJrTFRnNVpEWXRORGhrWTJFMFpHSmhZVEprSW4wLjhhdkY3T2VERl96ZFhiaTVqdHVSeVlTMFVVdXNkQUVpbE1oUDBGR05iWWc=';
+            setAccessToken(hardcodedToken);
         } catch (error) {
-            console.error('请求 token 出错:', error);
+            console.error('设置 token 出错:', error);
         } finally {
             setTokenLoading(false);
         }
     };
-
     const handleLoginSuccess = (userData) => {
         setUser(userData);
         setIsLoggedIn(true);
