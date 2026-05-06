@@ -6,6 +6,8 @@ export default function PetAiChat() {
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState(null);
+    const [accessToken, setAccessToken] = useState(null);
+    const [tokenLoading, setTokenLoading] = useState(false);
 
     // 检查本地登录状态
     useEffect(() => {
@@ -17,6 +19,31 @@ export default function PetAiChat() {
         setIsLoading(false);
     }, []);
 
+    // 当用户登录后，获取 access_token
+    useEffect(() => {
+        if (isLoggedIn && user) {
+            fetchAccessToken();
+        }
+    }, [isLoggedIn, user]);
+
+    const fetchAccessToken = async () => {
+        setTokenLoading(true);
+        try {
+            // 调用 Vercel 云函数获取 token
+            const response = await fetch(`/api/token?userId=${encodeURIComponent(user.email)}`);
+            const data = await response.json();
+            if (data.success && data.access_token) {
+                setAccessToken(data.access_token);
+            } else {
+                console.error('获取 token 失败:', data.error);
+            }
+        } catch (error) {
+            console.error('请求 token 出错:', error);
+        } finally {
+            setTokenLoading(false);
+        }
+    };
+
     const handleLoginSuccess = (userData) => {
         setUser(userData);
         setIsLoggedIn(true);
@@ -27,10 +54,13 @@ export default function PetAiChat() {
         localStorage.removeItem('simulatedUser');
         setIsLoggedIn(false);
         setUser(null);
+        setAccessToken(null);
     };
 
-    // 宠智灵 H5 地址（你之前可用的那个）
-    const petAiUrl = 'https://h5.chongzhiling.com/pages/condition/info?ind=1&type=picture&access_token=你的token';
+    // 拼接宠智灵 H5 地址（使用动态 token）
+    const petAiUrl = accessToken 
+        ? `https://h5.chongzhiling.com/pages/condition/info?ind=1&type=picture&access_token=${accessToken}`
+        : '';
 
     if (isLoading) {
         return (
@@ -73,7 +103,19 @@ export default function PetAiChat() {
         );
     }
 
-    // 已登录：显示宠智灵界面 + 自定义头部
+    // 已登录，但 token 还在加载中
+    if (tokenLoading || !accessToken) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[400px]">
+                <div className="text-center">
+                    <div className="w-16 h-16 border-4 border-orange-200 border-t-orange-500 rounded-full animate-spin mx-auto mb-4"></div>
+                    <p className="text-gray-500">正在连接AI诊断服务...</p>
+                </div>
+            </div>
+        );
+    }
+
+    // 已登录且有 token：显示宠智灵界面
     return (
         <div className="flex flex-col h-full">
             {/* 自定义顶部栏 */}
