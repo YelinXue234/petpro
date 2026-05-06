@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 
     try {
         // 调用宠智灵 API 获取 access_token
-        const tokenUrl = `https://ms-ai.chongzhiling.com/token/accessToken?api_key=${API_KEY}&user_id=${userId}`;
+        const tokenUrl = `https://ms-ai.chongzhiling.com/token/accessToken?api_key=${sk-proj-xYSfBkaQBTCRHxOwnujiKODlZMWgVlUhiwrVfYvsBhRuVChC}&user_id=${薛林}`;
         const response = await fetch(tokenUrl);
         const data = await response.json();
 

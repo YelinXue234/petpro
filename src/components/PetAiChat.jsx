@@ -1,3 +1,4 @@
+// src/components/PetAiChat.jsx
 import { useState, useEffect } from 'react';
 import SimulatedLoginModal from './SimulatedLoginModal';
 
@@ -19,7 +20,7 @@ export default function PetAiChat() {
         setIsLoading(false);
     }, []);
 
-    // 当用户登录后，获取 access_token
+    // 登录后获取 access_token
     useEffect(() => {
         if (isLoggedIn && user) {
             fetchAccessToken();
@@ -29,7 +30,6 @@ export default function PetAiChat() {
     const fetchAccessToken = async () => {
         setTokenLoading(true);
         try {
-            // 调用 Vercel 云函数获取 token
             const response = await fetch(`/api/token?userId=${encodeURIComponent(user.email)}`);
             const data = await response.json();
             if (data.success && data.access_token) {
@@ -57,9 +57,9 @@ export default function PetAiChat() {
         setAccessToken(null);
     };
 
-    // 拼接宠智灵 H5 地址（使用动态 token）
+    // 动态拼接宠智灵 H5 地址
     const petAiUrl = accessToken 
-        ? `https://h5.chongzhiling.com/pages/condition/info?ind=1&type=picture&access_token=${accessToken}`
+        ? `https://h5.chongzhiling.com/pages/condition/info?ind=1&type=picture&access_token=${ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT25zaWRYTmxjbDlwWkNJNklqRXhNREF5TWprNExWeDFPRFU1WWx4MU5qYzVOeTAzTWpoak16STRObVptWW1SaVpUSTBZVFE1TUdFeFpqWTJPREpoWVRoa01pSXNJbUYxZEdoZmRtbGhYMkZ3YVd0bGVTSTZkSEoxWlgwc0ltVjRjQ0k2TVRjM09ETXlORGMyTWl3aWFuUnBJam9pWlRJd01HTm1Nall0WlRKbE1DMDBOek5sTFdGaU9XTXRPREE1WkRKa01EWTFaVGd4SW4wLlRsVDVDUWVzSm5icWR5YW8tbFo5TzN2bFItRVZROHVrXzRPN2FxQjFkWDA=}`
         : '';
 
     if (isLoading) {
@@ -77,7 +77,6 @@ export default function PetAiChat() {
     if (!isLoggedIn) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[500px] text-center px-4">
-                {/* 自定义诊断卡片 */}
                 <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-3xl p-8 max-w-md shadow-xl">
                     <div className="text-6xl mb-4">🐕‍🦺</div>
                     <h2 className="text-2xl font-bold text-gray-800 mb-2">AI 智能诊断</h2>
@@ -92,8 +91,6 @@ export default function PetAiChat() {
                         开始诊断 →
                     </button>
                 </div>
-
-                {/* 登录模态框 */}
                 <SimulatedLoginModal
                     isOpen={showLoginModal}
                     onClose={() => setShowLoginModal(false)}
@@ -103,10 +100,10 @@ export default function PetAiChat() {
         );
     }
 
-    // 已登录，但 token 还在加载中
+    // 已登录但 token 还在获取中
     if (tokenLoading || !accessToken) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[400px]">
+            <div className="flex items-center justify-center min-h-[400px]">
                 <div className="text-center">
                     <div className="w-16 h-16 border-4 border-orange-200 border-t-orange-500 rounded-full animate-spin mx-auto mb-4"></div>
                     <p className="text-gray-500">正在连接AI诊断服务...</p>
@@ -115,7 +112,7 @@ export default function PetAiChat() {
         );
     }
 
-    // 已登录且有 token：显示宠智灵界面
+    // 已登录且有 token：显示宠智灵 H5 页面
     return (
         <div className="flex flex-col h-full">
             {/* 自定义顶部栏 */}
