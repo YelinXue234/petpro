@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     const API_KEY = 'sk-proj-xYSfBkaQBTCRHxOwnujiKODlZMWgVlUhiwrVfYvsBhRuVChC';
 
     try {
-        const url = `https://ms-ai.chongzhiling.com/token/accessToken?api_key=${sk-proj-xYSfBkaQBTCRHxOwnujiKODlZMWgVlUhiwrVfYvsBhRuVChC}&user_id=${薛林}`;
+        const url = `https://ms-ai.chongzhiling.com/token/accessToken?api_key=${API_KEY}&user_id=${userId}`;
         const response = await fetch(url);
         const data = await response.json();
 
