@@ -2,7 +2,7 @@
 // Vercel Serverless Function - 获取宠智灵 access_token
 
 // 你的宠智灵 API Key（请替换成真实的）
-const API_KEY = 'sk-proj-QLCXhMyvhJqcGj3ydaDWNTGl8m3CDmKoD8N0zOCoiLN7aQvt';
+const API_KEY = 'sk-proj-xYSfBkaQBTCRHxOwnujiKODlZMWgVlUhiwrVfYvsBhRuVChC';
 
 export default async function handler(req, res) {
     // 设置 CORS 头，允许前端调用
