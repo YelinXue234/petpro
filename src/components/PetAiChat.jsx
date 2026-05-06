@@ -58,9 +58,9 @@ export default function PetAiChat() {
     };
 
     // 宠智灵官方 H5 地址（不带 petId）
-    const petAiUrl = accessToken 
-        ? `https://h5.chongzhiling.com?access_token=${encodeURIComponent(accessToken)}`
-        : '';
+   const petAiUrl = accessToken 
+    ? `https://h5.chongzhiling.com?access_token=${encodeURIComponent(accessToken)}`
+    : '';
 
     if (isLoading) {
         return (
