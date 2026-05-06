@@ -57,9 +57,9 @@ export default function PetAiChat() {
         setAccessToken(null);
     };
 
-    // 动态拼接宠智灵 H5 地址
+    // 宠智灵官方 H5 地址（不带 petId）
     const petAiUrl = accessToken 
-        ? `https://h5.chongzhiling.com/pages/condition/info?ind=1&type=picture&access_token=${ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnpkV0lpT25zaWRYTmxjbDlwWkNJNklqRXhNREF5TWprNExWeDFPRFU1WWx4MU5qYzVOeTAzTWpoak16STRObVptWW1SaVpUSTBZVFE1TUdFeFpqWTJPREpoWVRoa01pSXNJbUYxZEdoZmRtbGhYMkZ3YVd0bGVTSTZkSEoxWlgwc0ltVjRjQ0k2TVRjM09ETXlORGMyTWl3aWFuUnBJam9pWlRJd01HTm1Nall0WlRKbE1DMDBOek5sTFdGaU9XTXRPREE1WkRKa01EWTFaVGd4SW4wLlRsVDVDUWVzSm5icWR5YW8tbFo5TzN2bFItRVZROHVrXzRPN2FxQjFkWDA=}`
+        ? `https://h5.chongzhiling.com?access_token=${encodeURIComponent(accessToken)}`
         : '';
 
     if (isLoading) {
@@ -112,7 +112,7 @@ export default function PetAiChat() {
         );
     }
 
-    // 已登录且有 token：显示宠智灵 H5 页面
+    // 已登录且有 token：显示宠智灵 H5 页面（官方嵌入方式）
     return (
         <div className="flex flex-col h-full">
             {/* 自定义顶部栏 */}
@@ -132,7 +132,7 @@ export default function PetAiChat() {
                 </button>
             </div>
 
-            {/* 宠智灵 iframe */}
+            {/* 宠智灵 iframe - 官方嵌入地址 */}
             <div className="flex-1 bg-white rounded-2xl overflow-hidden shadow-lg">
                 <iframe
                     src={petAiUrl}
@@ -140,6 +140,7 @@ export default function PetAiChat() {
                     className="w-full h-full border-0"
                     style={{ minHeight: '600px', height: 'calc(100vh - 200px)' }}
                     allow="camera; microphone"
+                    frameBorder="0"
                 />
             </div>
 
